@@ -18,9 +18,9 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 const DangKy = () => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation("common");
   const { data: session, status } = useSession();
   const router = useRouter();
   const [signupStatus, setSignupStatus] = useState(null);
@@ -52,6 +52,10 @@ const DangKy = () => {
       .required(t("Vui lòng nhấp số điện thoại hợp lệ"))
       .trim(t("Vui lòng nhấp số điện thoại hợp lệ"))
       .matches(/^0\d{9,10}$/, t("Vui lòng nhấp số điện thoại hợp lệ"))
+      .strict(true),
+    maGioiThieu: Yup.string()
+      .required(t("Mã giới thiệu không được để trống"))
+      .trim(t("Mã giới thiệu không được để trống"))
       .strict(true),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
@@ -265,6 +269,7 @@ const DangKy = () => {
               )}
               defaultValue=""
             />
+            <ErrorMessageLabel>{errors.maGioiThieu ? errors.maGioiThieu.message : ""}</ErrorMessageLabel>
           </FormControl>
 
           <Button type="submit" onClick={handleSubmit(onSubmit)} variant="contained">
